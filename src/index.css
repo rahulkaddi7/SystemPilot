@@ -1,0 +1,52 @@
+@import "tailwindcss";
+
+:root{
+
+  --bg:#ffffff;
+  --card:#fafbff;
+  --text:#111827;
+  --secondary:#6b7280;
+  --border:#dbeafe;
+  --primary:#2563eb;
+}
+
+.dark{
+
+  --bg:#050816;
+  --card:#0f172a;
+  --text:#f8fafc;
+  --secondary:#94a3b8;
+  --border:#1e3a8a;
+  --primary:#3b82f6;
+}
+
+body{
+
+  background:var(--bg);
+  color:var(--text);
+  transition:.3s;
+}
+html,
+body,
+#root {
+  height: 100%;
+}
+
+body {
+  font-family: "Inter", sans-serif;
+  background: #0b1020;
+  color: white;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: "Poppins", sans-serif;
+}
+
+* {
+  scroll-behavior: smooth;
+}
