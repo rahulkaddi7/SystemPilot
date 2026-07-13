@@ -7,3 +7,5 @@ grandalf
 langchain-groq
 langgraph-checkpoint-sqlite
 langchain-experimental
+fastapi
+uvicorn
