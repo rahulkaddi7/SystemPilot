@@ -15,6 +15,7 @@ const Chat = () => {
   const [threadId, setThreadId] = useState(chatId || "");
   const [messages, setMessages] = useState<Message[]>([]);
   const [isLoading, setIsLoading] = useState(false);
+
   useEffect(() => {
 
     if (!chatId) {
@@ -31,6 +32,14 @@ const Chat = () => {
         setMessages(data.messages);
       } catch (error) {
         console.error("Failed to fetch chat:", error);
+
+        setMessages([
+          {
+            sender: "assistant",
+            message:
+              "Sorry, I couldn't load this conversation. Please refresh the page or try again later.",
+          },
+        ]);
       }
     };
 
@@ -39,49 +48,62 @@ const Chat = () => {
   }, [chatId]);
 
   const handleSend = async (message: string) => {
-
     setMessages((prev) => [
       ...prev,
       {
         sender: "user",
-        message
-      }
-    ]);
-    setIsLoading(true);
-    try {
-
-      const data = await sendMessage(
         message,
-        threadId
-      );
+      },
+    ]);
+
+    setIsLoading(true);
+
+    try {
+      const data = await sendMessage(message, threadId);
 
       if (data.thread_id) {
         setThreadId(data.thread_id);
       }
 
       let assistantMessage = data.message;
+
       try {
         const parsed = JSON.parse(data.message);
         assistantMessage = parsed.description;
       } catch {
         assistantMessage = data.message;
       }
+
       setMessages((prev) => [
         ...prev,
         {
           sender: "assistant",
-          message: assistantMessage
-        }
+          message: assistantMessage,
+        },
       ]);
     } catch (error) {
-      console.error(error);
+      console.error("Failed to send message:", error);
+
+      let errorMessage ="Sorry, I couldn't process your request right now. Please try again.";
+
+      if (!navigator.onLine) {
+        errorMessage ="You're offline. Please check your internet connection and try again.";
+      }
+
+      setMessages((prev) => [
+        ...prev,
+        {
+          sender: "assistant",
+          message: errorMessage,
+        },
+      ]);
     } finally {
       setIsLoading(false);
     }
   };
   return (
 
-    <div className="flex h-screen bg-white dark:bg-[#050816]">
+   <div className="flex h-screen bg-[var(--bg)] text-[var(--text)]">
       <Sidebar
         onNewChat={() => {
           setMessages([]);

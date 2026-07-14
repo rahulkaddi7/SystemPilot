@@ -9,6 +9,8 @@ import { useNavigate } from "react-router-dom";
 
 import { getChats } from "../../api/chat";
 import type { Chat } from "../../types/chat";
+import { useTheme } from "../../hooks/useTheme";
+import ThemeModal from "../Theme/ThemeModal";
 
 
 interface SidebarProps {
@@ -19,6 +21,8 @@ const Sidebar = ({ onNewChat }: SidebarProps) => {
   const navigate = useNavigate();
 
   const [chats, setChats] = useState<Chat[]>([]);
+  const [themeOpen, setThemeOpen] = useState(false);
+  const { theme, setTheme } = useTheme();
 
   useEffect(() => {
     const fetchChats = async () => {
@@ -33,12 +37,13 @@ const Sidebar = ({ onNewChat }: SidebarProps) => {
     fetchChats();
   }, []);
 
+  console.log("Chats:", chats);
+console.log("Is array:", Array.isArray(chats));
+
   return (
-    <aside className="w-72 border-r border-blue-100 dark:border-blue-900 bg-white dark:bg-[#050816] flex flex-col">
-
-
-      <div className="p-6 border-b border-blue-100 dark:border-blue-900">
-        <h1 className="text-2xl font-bold text-gray-900 dark:text-white">
+    <aside className="w-72 border-r border-[var(--border)] bg-[var(--bg)] flex flex-col">
+      <div className="p-6 border-b border-[var(--border)]">
+        <h1 className="text-2xl font-bold text-[var(--text)]">
           LearnGPT
         </h1>
       </div>
@@ -57,10 +62,9 @@ const Sidebar = ({ onNewChat }: SidebarProps) => {
             border
             border-blue-500
             py-3
-            text-gray-800
-            dark:text-white
-            hover:bg-blue-50
-            dark:hover:bg-blue-950
+          text-[var(--text)]
+            
+           hover:bg-[var(--hover)]
             transition
           "
         >
@@ -84,10 +88,8 @@ const Sidebar = ({ onNewChat }: SidebarProps) => {
               py-3
               mb-2
               text-left
-              text-gray-700
-              dark:text-gray-200
-              hover:bg-blue-50
-              dark:hover:bg-blue-950
+             text-[var(--text)]
+             hover:bg-[var(--hover)]
               transition
             "
           >
@@ -99,9 +101,9 @@ const Sidebar = ({ onNewChat }: SidebarProps) => {
         ))}
       </div>
 
-      <div className="border-t border-blue-100 dark:border-blue-900 p-4 space-y-2">
-
+      <div className="border-t border-[var(--border)] p-4 space-y-2">
         <button
+          onClick={() => setThemeOpen(true)}
           className="
             w-full
             flex
@@ -109,10 +111,8 @@ const Sidebar = ({ onNewChat }: SidebarProps) => {
             gap-3
             rounded-xl
             p-3
-            text-gray-700
-            dark:text-gray-200
-            hover:bg-blue-50
-            dark:hover:bg-blue-950
+             text-[var(--text)]
+             hover:bg-[var(--hover)]
             transition
           "
         >
@@ -128,16 +128,20 @@ const Sidebar = ({ onNewChat }: SidebarProps) => {
             gap-3
             rounded-xl
             p-3
-            text-gray-700
-            dark:text-gray-200
-            hover:bg-blue-50
-            dark:hover:bg-blue-950
+               text-[var(--text)]
+             hover:bg-[var(--hover)]
             transition
           "
         >
           <Settings size={18} />
           Settings
         </button>
+        <ThemeModal
+          isOpen={themeOpen}
+          currentTheme={theme}
+          onClose={() => setThemeOpen(false)}
+          onSelect={setTheme}
+        />
       </div>
     </aside>
   );
