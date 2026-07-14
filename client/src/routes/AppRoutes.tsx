@@ -9,6 +9,7 @@ export default function AppRoutes() {
       <Route path="/" element={<Landing />} />
 
       <Route path="/chat" element={<Chat />} />
+      <Route path="/chat/:threadId" element={<Chat />} />
     </Routes>
   );
 }
