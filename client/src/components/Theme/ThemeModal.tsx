@@ -19,15 +19,15 @@ const ThemeModal = ({
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
-      <div className="w-96 rounded-2xl bg-white dark:bg-[#111827] shadow-xl">
+      <div className="w-96 rounded-2xl bg-[var(--card)] shadow-xl">
 
-        <div className="flex items-center justify-between border-b border-gray-200 dark:border-gray-700 p-5">
-          <h2 className="text-lg font-semibold dark:text-white">
+        <div className="flex items-center justify-between border-b border-[var(--border)] p-5">
+          <h2 className="text-lg font-semibold text-[var(--text)]">
             Choose Theme
           </h2>
 
           <button onClick={onClose}>
-            <X className="text-gray-500" />
+            <X className="text-[var(--secondary)]" />
           </button>
         </div>
 
@@ -43,11 +43,11 @@ const ThemeModal = ({
               className={`w-full rounded-xl border px-4 py-3 text-left transition
                 ${
                   currentTheme === theme
-                    ? "border-blue-500 bg-blue-50 dark:bg-blue-900/20"
-                    : "border-gray-200 dark:border-gray-700 hover:bg-gray-100 dark:hover:bg-gray-800"
+                    ? "border-[var(--primary)] bg-[var(--hover)]"
+                    : "border-[var(--border)] hover:bg-[var(--hover)]"
                 }`}
             >
-              <p className="capitalize font-medium dark:text-white">
+              <p className="capitalize font-medium text-[var(--text)]">
                 {theme}
               </p>
             </button>
