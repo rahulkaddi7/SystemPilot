@@ -59,7 +59,7 @@ def teacher_node(state: InterviewState) -> Command[Literal["supervisor"]]:
                     ),""
     )
 
-    curr_question = state["current_question"]
+    curr_question = state.get("current_question", "")
 
     messages = [
         {"role":"system", "content":system_prompt},

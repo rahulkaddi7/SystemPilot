@@ -8,11 +8,23 @@ from langchain_core.messages import HumanMessage
 from langgraph.checkpoint.memory import InMemorySaver
 from IPython.display import Image, display 
 from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
 import pprint
 from dotenv import load_dotenv
 
 load_dotenv()
 app = FastAPI()
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=[
+        "http://localhost:5173",
+        "http://127.0.0.1:5173"
+    ],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 from configs import config
 from graph import builder
@@ -72,5 +84,6 @@ async def chat(req: ChatRequest):
                 final_message = msg
 
     return {
-        "message": final_message.content if final_message else None
+    "thread_id": thread_id,
+    "message": final_message.content if final_message else None
     }
